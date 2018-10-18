@@ -1,0 +1,5 @@
+
+
+======================= Function call overhead ==================================================================================
+
+1. Measure it with no additional steps, using regular system timer.

@@ -1,0 +1,7 @@
+# depslib dependency file v1.0
+1539904551 source:/home/ayelam/Desktop/benchmarking/cpu-benchmarking/function_call_overhead.c
+	<stdio.h>
+	<time.h>
+	<sys/time.h>
+	<sys/resource.h>
+

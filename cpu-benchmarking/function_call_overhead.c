@@ -1,8 +1,10 @@
 
+#define _GNU_SOURCE
 #include <stdio.h>
 #include <time.h>
 #include <sys/time.h>
 #include <sys/resource.h>
+#include <sched.h>
 
 
 
@@ -20,55 +22,62 @@ long time_diff_in_ns(struct timespec start, struct timespec finish)
 
 void test_procedure_0()
 {
-    return;
 }
 
 void test_procedure_1(int arg1)
 {
-    return;
 }
 
 void test_procedure_2(int arg1, int arg2)
 {
-    return;
 }
 
 void test_procedure_3(int arg1, int arg2, int arg3)
 {
-    return;
 }
 
 void test_procedure_4(int arg1, int arg2, int arg3, int arg4)
 {
-    return;
 }
 
 void test_procedure_5(int arg1, int arg2, int arg3, int arg4, int arg5)
 {
-    return;
 }
 
 void test_procedure_6(int arg1, int arg2, int arg3, int arg4, int arg5, int arg6)
 {
-    return;
 }
 
 void test_procedure_7(int arg1, int arg2, int arg3, int arg4, int arg5, int arg6, int arg7)
 {
-    return;
 }
 
 int main()
 {
     struct timespec start, finish;
     long time_spent;
-    int i, max_trials = 100;
+    int i, cpu_id, max_trials = 100;
+
+    // Get the CPU on which the thread is running
+    cpu_id = sched_getcpu();
+    printf("CPU ID: %d\n", cpu_id);
 
     long avg_time_spent = 0;
     for(i=0;i<max_trials;i++)
     {
         clock_gettime(CLOCK_REALTIME, &start);
         test_procedure_0();
+        clock_gettime(CLOCK_REALTIME, &finish);
+        time_spent = time_diff_in_ns(start, finish);
+        avg_time_spent += time_spent;
+    }
+    printf("%lfns\n", avg_time_spent*1.0/max_trials);
+
+    avg_time_spent = 0;
+    for(i=0;i<max_trials;i++)
+    {
+        clock_gettime(CLOCK_REALTIME, &start);
+        int a = 1;
         clock_gettime(CLOCK_REALTIME, &finish);
         time_spent = time_diff_in_ns(start, finish);
         avg_time_spent += time_spent;
@@ -153,6 +162,9 @@ int main()
     }
     printf("%lfns\n", avg_time_spent*1.0/max_trials);
 
+    // Get the CPU on which the thread is running
+    cpu_id = sched_getcpu();
+    printf("CPU ID: %d\n", cpu_id);
 
     return 0;
 }
@@ -169,5 +181,4 @@ void time_diff_in_ns_v1(struct timespec start, struct timespec finish, struct ti
 
     diff->tv_sec = seconds;
     diff->tv_nsec = ns;
-    return diff;
 }
